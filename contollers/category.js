@@ -1,4 +1,4 @@
-var Category = require('./category');
+var Category = require('../models/category');
 
 exports.create = function (name, cb) {
   var category = new Category();

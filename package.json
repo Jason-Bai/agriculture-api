@@ -1,5 +1,5 @@
 {
-  "name": "services",
+  "name": "agriculture-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,6 +13,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "lodash": "^4.15.0",
     "moment": "^2.14.1",
     "mongoose": "^4.5.8",
     "underscore": "^1.8.3"

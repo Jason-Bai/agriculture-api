@@ -1,7 +1,7 @@
 var express = require('express')
   , router = express.Router();
 
-var utils = require('./utils');
+var utils = require('../lib/utils');
 
 
 var routerSettings = {
@@ -29,7 +29,7 @@ utils._.each(routerPaths, function (path) {
 });
 
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
   res.json(apiResults);
 })
 
