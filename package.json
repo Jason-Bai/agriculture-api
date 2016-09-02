@@ -13,8 +13,10 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "jsonwebtoken": "^7.1.9",
     "moment": "^2.14.1",
-    "mongoose": "^4.5.8",
+    "mongoose": "^4.5.10",
+    "morgan": "^1.7.0",
     "underscore": "^1.8.3"
   }
 }

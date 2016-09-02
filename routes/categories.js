@@ -1,6 +1,6 @@
 var express = require('express')
   , router = express.Router()
-  , Category = require('./category');
+  , Category = require('../models').Category;
 
 
 router.get('/', function (req, res) {
@@ -12,8 +12,6 @@ router.get('/', function (req, res) {
 router.post('/', function(req, res) {
 
   var name = req.body.name + Math.random() * 10000;
-
-  console.log(name);
 
   Category.create(name, function (err, category) {
     res.redirect('/categories');

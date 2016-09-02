@@ -1,7 +1,7 @@
 var express = require('express')
   , router = express.Router();
 
-var utils = require('./utils');
+var utils = require('../lib/utils');
 
 
 var routerSettings = {
@@ -30,7 +30,7 @@ utils._.each(routerPaths, function (path) {
 
 
 router.get('/', function(req, res) {
-  res.json(apiResults);
-})
+  res.send('Hello! The API is at http://localhost:3000/api');
+});
 
 module.exports = router

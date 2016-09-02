@@ -1,4 +1,5 @@
 var config = {
+  secret: 'agriculture_api',
   service: {
     name: 'agriculture server',
     version: '0.0.1',
@@ -7,9 +8,9 @@ var config = {
   db: {
     host: '127.0.0.1',
     port: 27017,
-    name: 'dbTest',
-    user: '',
-    pass: ''
+    name: 'agriculture',
+    user: 'agriculture',
+    pass: 'agriculture'
   },
   redis: {
     prefix: 'agriculture_redis',
