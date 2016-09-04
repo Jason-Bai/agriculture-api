@@ -2,8 +2,6 @@ var express = require('express')
   , router = express.Router()
   , Category = require('../controllers').Category;
 
-module.exports = router;
-
 /**
  * 1.查询分类
  * 2.控制查询分类等级
