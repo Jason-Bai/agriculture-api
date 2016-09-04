@@ -1,11 +1,26 @@
-var User = require('./user');
+var jwt    = require('jsonwebtoken');
+
+var configs = require('../configs');
+var utils = require('../lib/utils');
 
 module.exports = function (opts) {
   return function (req, res, next) {
-    if (req.user) {
-      next()
+    
+    var token = utils.getToken(req);
+
+    if (token) {
+      jwt.verify(token, configs.secret, function (err, decoded) {
+        if (err) {
+          var errMsg = utils.errors.ISE('token invalid.');
+          return res.json(errMsg);
+        }
+        req.decoded = decoded;
+        next();
+      });
     } else {
-      res.status(401).end()
+      var errMsg = utils.errors.Forbidden('No token provided.');
+      return res.json(errMsg);
     }
+
   }
 };

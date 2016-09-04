@@ -1,4 +1,4 @@
-var Category = require('../models/category');
+var Category = require('../models').Category;
 
 exports.create = function (name, cb) {
   var category = new Category();

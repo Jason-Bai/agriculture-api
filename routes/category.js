@@ -1,6 +1,6 @@
 var express = require('express')
   , router = express.Router()
-  , Category = require('../contollers/category');
+  , Category = require('../controllers').Category;
 
 module.exports = router;
 
@@ -18,8 +18,6 @@ router.post('/', function (req, res) {
 
   var name = req.body.name + Math.random() * 10000;
 
-  console.log(name);
-
   Category.create(name, function (err, category) {
     res.redirect('/categories');
   });
@@ -34,3 +32,5 @@ router.get('/:id', function (req, res) {
   };
   res.json(obj);
 });
+
+module.exports = router;

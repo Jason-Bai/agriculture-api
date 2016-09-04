@@ -1,6 +1,8 @@
 var express = require('express')
   , router = express.Router()
-  , User = require('../contollers/user');
+  , User = require('../controllers').User;
+
+var utils = require('../lib/utils');
 
 module.exports = router;
 
@@ -9,20 +11,25 @@ module.exports = router;
  */
 router.get('/', function (req, res) {
   User.findAll(function (err, users) {
+    if (err) {
+      var errMsg = 'get users errors: ' + err.toString() + '!';
+      return res.json(utils.errors.ISE(errMsg));
+    }
     res.json(users);
   });
 });
 
-/**
- * create user
- */
-router.post('/', function (req, res) {
-  //var user = req.user.id
+router.post('/', function(req, res) {
+
   var name = req.body.name;
-  var pass = req.body.pass;
+  var pass = req.body.password;
 
   User.create(name, pass, function (err, user) {
-    res.redirect('/users')
+    if (err) {
+      var errMsg = 'create user error: ' + err.toString() + '!';
+      return res.json(utils.errors.ISE(errMsg));
+    }
+    res.redirect('/api/users')
   });
 });
 
@@ -43,3 +50,5 @@ router.get('/profile/:id', function (req, res) {
   };
   res.json(obj);
 });
+
+module.exports = router;

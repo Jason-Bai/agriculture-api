@@ -1,21 +1,40 @@
+// get an instance of mongoose and mongoose.Schema
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var bcrypt = require('bcrypt');
+var configs = require('../configs');
 
 var UserSchema = new Schema({
-  name: String,
-  pass: String,
-  salt: String,
-  token: String,//鉴权
-  level: Number,
-  create_at: {type: Date, default: Date.now}
+    name: {
+        type: String,
+        index: true,
+        unique: true
+    },
+    password: String,
+    isDelete: Number,
+    admin: Boolean,
+    salt: String,
+    token: String,
+    level: Number,
+    create_at: { 
+        type: Date, 
+        default: Date.now 
+    }
 }, {
-  versionKey: false,
-  toJSON: {getters: true, virtuals: true},
-  toObject: {getter: true, virtuals: true}
+    versionKey: false
 });
 
-UserSchema.query.byName = function (name) {
-  return this.find({name: new RegExp(name, 'i')});
-};
+UserSchema.pre('save', function (next) {
+    var user = this;
+    if (!user.isModified('password')) return next()
+    bcrypt.genSalt(configs.SALT_WORK_PACTOR, function (err, salt) {
+        if (err) return next(err);
+        bcrypt.hash(user.password, salt, function (err, hash) {
+            if (err) return next(err);
+            user.password = hash;
+            next();
+        });
+    });
+});
 
 module.exports = mongoose.model('User', UserSchema);
