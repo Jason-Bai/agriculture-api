@@ -1,4 +1,5 @@
 var config = {
+  SALT_WORK_PACTOR: 10,
   secret: 'agriculture_api',
   service: {
     name: 'agriculture server',

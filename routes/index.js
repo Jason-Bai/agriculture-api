@@ -1,17 +1,22 @@
 var express = require('express')
-  , router = express.Router();
+  , router = express.Router()
+  , config = require('../configs');
 
 var utils = require('../lib/utils');
 
 
 var routerSettings = {
-  '/categories': {
+  '/apicategories': {
     name: '农业分类API',
-    router: require('./categories')
+    router: require('./category')
   },
-  '/users': {
+  '/api/users': {
     name: '用户API',
-    router: require('./users')
+    router: require('./user')
+  },
+  '/api/authenticate': {
+    name: '授权API',
+    router: require('./authentication')
   }
 };
 
@@ -29,8 +34,8 @@ utils._.each(routerPaths, function (path) {
 });
 
 
-router.get('/', function(req, res) {
-  res.send('Hello! The API is at http://localhost:3000/api');
+router.get('/api', function(req, res) {
+  res.send('Hello! The API is at http://localhost:' + config.service.port +'/api');
 });
 
 module.exports = router

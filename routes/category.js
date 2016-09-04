@@ -1,6 +1,6 @@
 var express = require('express')
   , router = express.Router()
-  , Category = require('../models').Category;
+  , Category = require('../controllers').Category;
 
 
 router.get('/', function (req, res) {

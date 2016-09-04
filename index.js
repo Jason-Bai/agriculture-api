@@ -18,7 +18,10 @@ app.set('superSecret', config.secret);
 // middlewares
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(morgan('dev'));
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 var port = process.env.PORT || config.service.port;
 
