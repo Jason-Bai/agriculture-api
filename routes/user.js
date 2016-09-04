@@ -4,11 +4,7 @@ var express = require('express')
 
 var utils = require('../lib/utils');
 
-module.exports = router;
-
 /**
- * find all users
- */
 router.get('/', function (req, res) {
   User.findAll(function (err, users) {
     if (err) {
@@ -16,6 +12,21 @@ router.get('/', function (req, res) {
       return res.json(utils.errors.ISE(errMsg));
     }
     res.json(users);
+  });
+});
+*/
+
+router.get('/', function (req, res) {
+  var pageIndex = req.query.pageIndex || 1;
+  var pageSize = req.query.pageSize || 10;
+  utils.findByPage(pageIndex, pageSize, User, '', {}, {
+    create_at: 'desc'
+  }, function (err, results) {
+    if (err) {
+      var errMsg = utils.errors.ISE(err.toString());
+      return next(errMsg)
+    }
+    res.json(results);
   });
 });
 
