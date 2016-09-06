@@ -1,8 +1,31 @@
 var express = require('express')
-  , router = express.Router();
+  , router = express.Router()
+  , User = require('../contollers/user');
 
 var utils = require('../lib/utils');
 
+var apiDesc = [
+  {
+    name: 'Users',
+    desc: 'user operate ..',
+    list: [
+      {
+        name: '登录',
+        url: '/signin',
+        params: ['name', 'pass']
+      },
+      {
+        name: '注册',
+        url: '/signup',
+        params: ['name', 'pass']
+      }
+    ]
+  }
+];
+
+router.post('/signin', User.signin);
+
+router.post('/signup', User.signup);
 
 var routerSettings = {
   '/categories': {

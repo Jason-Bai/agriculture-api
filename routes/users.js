@@ -4,14 +4,11 @@ var express = require('express')
 
 module.exports = router;
 
+
 /**
  * find all users
  */
-router.get('/', function (req, res) {
-  User.findAll(function (err, users) {
-    res.json(users);
-  });
-});
+router.get('/', User.findAll);
 
 /**
  * create user

@@ -3,30 +3,21 @@
  */
 
 var express = require('express')
-  , router = express.Router();
+  , router = express.Router()
+  , Product = require('../contollers/product');
 
 module.exports = router;
 
 // get all
-router.get('/', function (req, res) {
-  res.json({});
-});
+router.get('/', Product.findAll);
 
 // find one
-router.get('/:productId', function (req, res) {
-  res.json({});
-});
+router.get('/:productId', Product.findOneById);
 
 // create a product
-router.post('/', function (req, res) {
-  res.json({});
-});
+router.post('/', Product.create);
 
 // update a project
-router.put('/:productId', function (req, res) {
-  res.json({});
-});
+router.put('/:productId', Product.update);
 
-router.delete('/:productId', function (req, res) {
-  res.json({});
-});
+router.del('/:productId', Product.deleteOne);

@@ -8,29 +8,8 @@ module.exports = router;
  * 1.查询分类
  * 2.控制查询分类等级
  */
-router.get('/', function (req, res) {
-  Category.findAll(function (err, categories) {
-    res.json(categories);
-  });
-});
+router.get('/', Category.findAll);
 
-router.post('/', function (req, res) {
+router.post('/', Category.create);
 
-  var name = req.body.name + Math.random() * 10000;
-
-  console.log(name);
-
-  Category.create(name, function (err, category) {
-    res.redirect('/categories');
-  });
-
-
-});
-
-router.get('/:id', function (req, res) {
-  var obj = {
-    id: 'xxxx' + Math.random() * 10000,
-    name: '水果'
-  };
-  res.json(obj);
-});
+router.get('/:id', Category.findOne);

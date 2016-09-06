@@ -4,6 +4,7 @@
 
 module.exports = function (app) {
 
+  app.use('/', require('./index'));
   app.use('/api/v1/users', require('./users'));
   app.use('/api/v1/categories', require('./categories'));
   app.use('/api/v1/product', require('./product'));
