@@ -5,14 +5,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ProductSchema = new Schema({
-  name: {type: String, index: 1},
+  name: { type: String, index: 1 },
   price: Number,
   description: String,
   categoryId: Schema.ObjectId,
   picture: String,
-  create_at: {type: Date, default: Date.now}
+  create_at: { type: Date, default: Date.now }
 }, {
-  versionKey: false
+    versionKey: false
 });
 
 ProductSchema.query.byName = function (name) {

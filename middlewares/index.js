@@ -1,8 +1,7 @@
 var middlewares = [
   require('./logger'),
-  require('./user'),
-  require('./auth')
+  require('./auth'),
+  require('./user')
 ];
-
 
 module.exports = middlewares;

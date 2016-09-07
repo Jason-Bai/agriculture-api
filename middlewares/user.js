@@ -1,32 +1,35 @@
-var User = require('./user');
+var utils = require('../lib/utils');
+
+var User = require('../controllers').User;
 
 module.exports = function (opts) {
   
   return function (req, res, next) {
 
-    req.user = {
-      id: 'xxxx' + Math.random() * 10000,
-      name: 'boybai',
-      email: 'boybai1213@gmail.com'
-    };
-
-    next();
-
-    /*
-    if (req.session && req.session.user) {
-      User.get(req.session.user, function (err, user) {
-        if (user) {
-          req.user = user
-        } else {
-          delete req.user
-          delete req.session.user
-        }
-
-        next()
-      })
-    } else {
-      next()
+    if (!req.decoded) {
+      var errMsg = utils.errors.NotFound('User not found!');
+      return res.json(errMsg);
     }
-    */
+
+    var userId = req.decoded._doc._id;
+
+    User.get(userId, function (err, user) {
+
+      if (err) {
+        var errMsg = utils.errors.ISE('get user: ' + err.toString() + '!');
+        return res.json(errMsg);
+      }
+
+      if (!user) {
+        var errMsg = utils.errors.NotFound('User not found!');
+        return res.json(errMsg);
+      }
+
+      req.user = user;
+
+      next();
+
+    });
+
   }
 };

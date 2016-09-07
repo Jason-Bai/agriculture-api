@@ -4,7 +4,7 @@
 
 var express = require('express')
   , router = express.Router()
-  , Product = require('../contollers/product');
+  , Product = require('../controllers/product');
 
 module.exports = router;
 

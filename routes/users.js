@@ -1,6 +1,6 @@
 var express = require('express')
   , router = express.Router()
-  , User = require('../contollers/user');
+  , Users = require('../controllers/users');
 
 module.exports = router;
 
@@ -8,35 +8,19 @@ module.exports = router;
 /**
  * find all users
  */
-router.get('/', User.findAll);
+router.get('/', Users.findAll);
 
 /**
  * create user
  */
-router.post('/', function (req, res) {
-  //var user = req.user.id
-  var name = req.body.name;
-  var pass = req.body.pass;
-
-  User.create(name, pass, function (err, user) {
-    res.redirect('/users')
-  });
-});
+router.post('/', Users.create);
 
 /**
  * update user info
  */
-router.put('/:userId', function (req, res) {
-
-});
+router.put('/:userId', Users.update);
 
 /**
  * get user profile
  */
-router.get('/profile/:id', function (req, res) {
-  var obj = {
-    id: 'xxxx' + Math.random() * 10000,
-    user: '水果姐'
-  };
-  res.json(obj);
-});
+router.get('/:userId', Users.findProfile);
