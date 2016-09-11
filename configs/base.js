@@ -7,11 +7,11 @@ var config = {
     port: 8000
   },
   db: {
-    host: '127.0.0.1',
+    host: '101.200.181.218',
     port: 27017,
     name: 'agriculture',
     user: 'agriculture',
-    pass: 'agriculture'
+    pass: 'ds*hjZ2u^BLHIHk0'
   },
   redis: {
     prefix: 'agriculture_redis',
