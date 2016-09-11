@@ -1,12 +1,9 @@
 var express = require('express')
   , router = express.Router()
-<<<<<<< HEAD
-  , User = require('../contollers/user');
-=======
+  , Users = require('../controllers/users')
   , config = require('../configs');
->>>>>>> 153d04f404499dd47cf98b4a55ac464f4cdc9138
 
-var utils = require('../lib/utils');
+module.exports = router;
 
 var apiDesc = [
   {
@@ -16,12 +13,13 @@ var apiDesc = [
       {
         name: '登录',
         url: '/signin',
-        params: ['name', 'pass']
+        params: ['name', 'password']
       },
       {
         name: '注册',
         url: '/signup',
-        params: ['name', 'pass']
+        // headers: {Authrozation: 'Bear xxx toekn'},
+        params: ['name', 'password']
       }
     ]
   }
@@ -32,13 +30,13 @@ router.post('/signin', User.signin);
 router.post('/signup', User.signup);
 
 var routerSettings = {
-  '/apicategories': {
+  '/api/categories': {
     name: '农业分类API',
     router: require('./category')
   },
   '/api/users': {
     name: '用户API',
-    router: require('./user')
+    router: require('./users')
   },
   '/api/authenticate': {
     name: '授权API',
@@ -60,8 +58,6 @@ utils._.each(routerPaths, function (path) {
 });
 
 
-router.get('/api', function(req, res) {
-  res.send('Hello! The API is at http://localhost:' + config.service.port +'/api');
+router.get('/api', function (req, res) {
+  res.send('Hello! The API is at http://localhost:' + config.service.port + '/api');
 });
-
-module.exports = router
