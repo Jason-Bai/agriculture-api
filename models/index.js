@@ -1,2 +1,3 @@
-exports.Category = require('./category');
-exports.User = require('./user');
+exports.Categories = require('./categories');
+exports.Users = require('./users');
+exports.Posts = require('./posts');

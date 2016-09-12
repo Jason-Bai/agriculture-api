@@ -2,7 +2,7 @@ var express = require('express')
   , router = express.Router()
   , jwt    = require('jsonwebtoken')
   , bcrypt = require('bcrypt')
-  , User = require('../controllers').User;
+  , Users = require('../controllers').Users;
 
 var configs = require('../configs');
 var utils = require('../lib/utils');
@@ -17,13 +17,13 @@ router.get('/', function (req, res) {
 
 router.post('/', function(req, res, next) {
 
-  User.findAllByName(req.body.name, function(err, user) {
+  Users.findAllByName(req.body.name, function(err, user) {
     if (err) {
       var errMsg = 'get user error:' + err.toString() + '!';
       return next(utils.errors.ISE(errMsg));
     }
     if (!user) {
-      var errMsg = 'User not found!';
+      var errMsg = 'Users not found!';
       return res.json(utils.errors.NotFound(errMsg));
     }
 

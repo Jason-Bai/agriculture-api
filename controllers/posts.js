@@ -1,8 +1,7 @@
 /**
  * Created by antianlu on 16/9/2.
  */
-var PostModel = require('../models/posts');
-
+var PostModel = require('../models').Posts;
 
 exports.create = function (req, res, next) {
   var Post = new PostModel(params);
@@ -49,7 +48,7 @@ exports.findByCategory = function (cb) {
 
 exports.deleteOne = function (req, res, next) {
   var params = utils.getParams(req);
-  PostModel.remove({id: params.id}, function (err, p) {
+  PostModel.remove({id: params.postId}, function (err, p) {
     if (err) return next(err);
     res.json({code: 200, msg: 'delete success'});
   })
@@ -57,7 +56,9 @@ exports.deleteOne = function (req, res, next) {
 
 exports.update = function (req, res, next) {
   var params = utils.getParams(req);
-  PostModel.update(params, {upsert: true}, function (err, p) {
+  var postId = params.postId;
+  delete params.postId;
+  PostModel.update({id: postId}, params, {upsert: true}, function (err, p) {
     if (err) return next(err);
     res.json({code: 200, msg: 'update success'});
   })

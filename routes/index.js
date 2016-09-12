@@ -32,7 +32,7 @@ router.post('/signup', User.signup);
 var routerSettings = {
   '/api/categories': {
     name: '农业分类API',
-    router: require('./category')
+    router: require('./categories')
   },
   '/api/users': {
     name: '用户API',

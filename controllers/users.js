@@ -1,4 +1,4 @@
-var UsersModel = require('../models/users')
+var UsersModel = require('../models').Users
   , crypto = require('crypto');
 
 hash = function (password) {
@@ -37,14 +37,21 @@ exports.signup = function (req, res, next) {
   })
 };
 
+function findUserProfile(params, callback) {
+  UsersModel.findOne({id: params.userId}, function (err, docs) {
+    if (err) return next(err)
+    callback(docs);
+  })
+}
+
+exports.findUserProfile = findUserProfile;
 
 // get user info
 exports.findProfile = function (req, res, next) {
   var params = utils.getParams(req);
-  UsersModel.findOne({id: params.userId}, function (err, docs) {
-    if (err) return next(err)
+  findUserProfile({id: params.userId}, function (docs) {
     res.json(docs);
-  })
+  });
 };
 
 // Get all users

@@ -1,9 +1,9 @@
-var Category = require('../models').Category;
+var CategoriesModel = require('../models').Categories;
 
 exports.create = function (req, res, next) {
 
   var params = utils.getParams(req);
-  var category = new Category({
+  var category = new CategoriesModel({
     name: params.name + Math.random() * 10000
   });
   category.save(function () {
@@ -18,7 +18,7 @@ exports.create = function (req, res, next) {
 // Get all categories,support page
 exports.findAll = function (req, res, next) {
   var p = utils.pagination(req.query);
-  Category.find({}).sort({created_at: -1}).paginate(p.page, p.pre_count, function (err, data, total) {
+  CategoriesModel.find({}).sort({created_at: -1}).paginate(p.page, p.pre_count, function (err, data, total) {
     if (err)  return next(err);
     p.total = total;
     p.data = data || [];
@@ -36,8 +36,16 @@ exports.findOne = function (req, res, next) {
 
 
   var params = utils.getParams(req);
-  Category.findOne({id: params.id}, function (err, c) {
+  CategoriesModel.findOne({id: params.id}, function (err, c) {
     if (err) next(err);
     res.json(c);
   })
-}
+};
+
+exports.findByParentId = function (req, res, next) {
+  var params = utils.getParams(req);
+  CategoriesModel.findOne({id: params.parentId}, {sub_category: 1}, function (err, c) {
+    if (err) next(err);
+    res.json(c);
+  })
+};

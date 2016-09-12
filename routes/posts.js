@@ -4,20 +4,21 @@
 
 var express = require('express')
   , router = express.Router()
-  , Posts = require('../controllers/posts');
+  , PostsCtrl = require('../controllers').Posts
+  , middleware = require('../middlewares/auth');
 
 module.exports = router;
 
 // get all
-router.get('/', Posts.findAll);
+router.get('/', PostsCtrl.findAll);
 
 // find one
-router.get('/:articleId', Posts.findOneById);
+router.get('/:postId', PostsCtrl.findOneById);
 
 // create a product
-router.post('/', Posts.create);
+router.post('/', middleware.auth, PostsCtrl.create);
 
 // update a project
-router.put('/:articleId', Posts.update);
+router.put('/:postId', middleware.auth, PostsCtrl.update);
 
-router.del('/:articleId', Posts.deleteOne);
+router.del('/:postId', middleware.auth, PostsCtrl.deleteOne);

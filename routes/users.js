@@ -1,6 +1,6 @@
 var express = require('express')
   , router = express.Router()
-  , Users = require('../controllers/users');
+  , UsersCtrl = require('../controllers').Users;
 
 module.exports = router;
 
@@ -8,19 +8,19 @@ module.exports = router;
 /**
  * find all users
  */
-router.get('/', Users.findAll);
+router.get('/', UsersCtrl.findAll);
 
 /**
  * create user
  */
-router.post('/', Users.create);
+router.post('/', UsersCtrl.create);
 
 /**
  * update user info
  */
-router.put('/:userId', Users.update);
+router.put('/:userId', UsersCtrl.update);
 
 /**
  * get user profile
  */
-router.get('/:userId', Users.findProfile);
+router.get('/:userId', UsersCtrl.findProfile);
