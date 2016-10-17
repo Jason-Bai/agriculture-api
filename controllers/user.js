@@ -1,4 +1,4 @@
-var UsersModel = require('../models').Users
+var UserModel = require('../models').UserModel
   , crypto = require('crypto');
 
 hash = function (password) {
@@ -10,7 +10,7 @@ exports.signin = function (req, res, next) {
   var body = utils.getParams(req);
   var password = utils.sha1Hash(body.name, 'salt');
 
-  UsersModel.findOne({name: body.name}, function (err, u) {
+  UserModel.findOne({name: body.name}, function (err, u) {
     if (err) next(err);
     if (u.password == password) {
       // delete u.salt;
@@ -27,7 +27,7 @@ exports.signin = function (req, res, next) {
 // register
 exports.signup = function (req, res, next) {
   var body = utils.getParams(req);
-  var users = new UsersModel({
+  var users = new UserModel({
     name: body.name,
     password: utils.sha1Hash(body.password, 'salt'),
   });
@@ -38,7 +38,7 @@ exports.signup = function (req, res, next) {
 };
 
 function findUserProfile(params, callback) {
-  UsersModel.findOne({id: params.userId}, function (err, docs) {
+  UserModel.findOne({id: params.userId}, function (err, docs) {
     if (err) return next(err)
     callback(docs);
   })
@@ -58,7 +58,7 @@ exports.findProfile = function (req, res, next) {
 exports.findAll = function (req, res, next) {
   var params = utils.getParams(req),
     p = utils.pagination(req.query);
-  UsersModel.find({user_id: params.user_id}).sort({created_at: -1}).paginate(p.page, p.pre_count, function (err, data, total) {
+  UserModel.find({user_id: params.user_id}).sort({created_at: -1}).paginate(p.page, p.pre_count, function (err, data, total) {
     if (err)  return next(err);
     p.total = total;
     p.data = data || [];
@@ -70,7 +70,7 @@ exports.findAll = function (req, res, next) {
 // Get all users by a particular user name
 exports.findAllByName = function (req, res, next) {
   var params = utils.getParams(req);
-  UsersModel.find().byName(params.name).exec(function (err, u) {
+  UserModel.find().byName(params.name).exec(function (err, u) {
     if (err) next(err);
     res.json(u);
   });
@@ -78,12 +78,12 @@ exports.findAllByName = function (req, res, next) {
 
 // Get all users by a particular user
 exports.findAllByUser = function (user, cb) {
-  UsersModel.find({user: user}, cb)
+  UserModel.find({user: user}, cb)
 }
 
 // authenticate
 exports.authenticate = function (email, password, cb) {
-  UsersModel.find({email: email}, function (err, docs) {
+  UserModel.find({email: email}, function (err, docs) {
     if (err) return cb(err)
     if (docs.length === 0) return cb()
 
@@ -99,7 +99,7 @@ exports.authenticate = function (email, password, cb) {
 
 // change password
 exports.changePassword = function (id, password, cb) {
-  UsersModel.update({id: id}, {password: hash(password)}, function (err, affected) {
+  UserModel.update({id: id}, {password: hash(password)}, function (err, affected) {
     if (err) return cb(err)
     cb(null, affected > 0)
   })
@@ -109,8 +109,33 @@ exports.changePassword = function (id, password, cb) {
 // count
 exports.count = function (req, res, next) {
   var params = utils.getParams(req);
-  UsersModel.count(params, function (err, count) {
+  UserModel.count(params, function (err, count) {
     if (err) return next(err);
     res.json({count: count})
   });
+};
+
+// create
+exports.create = function (req, res, next) {
+
+  var params = utils.getParams(req);
+
+  var user = new UserModel({
+    name: params.name,
+		pass: params.password
+  });
+
+  user.save(function (err, model) {
+		if (err) {
+			return res.status(500).send(err);
+		}
+		return res.json(model);
+  });
+
+};
+
+exports.update = function (req, res, next) {
+
+	res.json({ok: true, msg: 'updated user!'})
+
 };

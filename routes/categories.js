@@ -1,6 +1,6 @@
 var express = require('express')
   , router = express.Router()
-  , CategoryCtrl = require('../controllers').Categories
+  , CategoryCtrl = require('../controllers').CategoryCtrl
   , middleware = require('../middlewares/auth');
 
 /**
@@ -14,3 +14,5 @@ router.get('/:parentId', CategoryCtrl.findByParentId);
 router.post('/', middleware.auth, CategoryCtrl.create);
 
 router.get('/:id', CategoryCtrl.findOne);
+
+module.exports = router;

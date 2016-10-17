@@ -22,4 +22,4 @@ PostSchema.query.byTile = function (title) {
   return this.find({title: new RegExp(title, 'i')});
 };
 
-module.exports = mongoose.model('Posts', PostSchema);
+module.exports = mongoose.model('Post', PostSchema);

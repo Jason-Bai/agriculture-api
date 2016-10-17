@@ -2,12 +2,12 @@ var jwt = require('jsonwebtoken');
 
 var configs = require('../configs');
 var utils = require('../lib/utils');
-var Users = require('../controllers/users');
+var UserCtrl = require('../controllers');
 
 function auth(req, res, next) {
   var params = utils.getParams(req);
   if (params.token) {
-    Users.findUserProfile({id: params.userId}, function (docs) {
+    UserCtrl.findUserProfile({id: params.userId}, function (docs) {
       res.json(docs);
     });
   } else {

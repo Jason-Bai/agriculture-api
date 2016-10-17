@@ -1,26 +1,25 @@
 var express = require('express')
   , router = express.Router()
-  , UsersCtrl = require('../controllers').Users;
-
-module.exports = router;
-
+  , UserCtrl = require('../controllers').UserCtrl;
 
 /**
  * find all users
  */
-router.get('/', UsersCtrl.findAll);
+router.get('/', UserCtrl.findAll);
 
 /**
  * create user
  */
-router.post('/', UsersCtrl.create);
+router.post('/', UserCtrl.create);
 
 /**
  * update user info
  */
-router.put('/:userId', UsersCtrl.update);
+router.put('/:userId', UserCtrl.update);
 
 /**
  * get user profile
  */
-router.get('/:userId', UsersCtrl.findProfile);
+router.get('/:userId', UserCtrl.findProfile);
+
+module.exports = router;

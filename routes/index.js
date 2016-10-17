@@ -1,6 +1,6 @@
 var express = require('express')
   , router = express.Router()
-  , Users = require('../controllers/users')
+  , UserCtrl = require('../controllers').UserCtrl
   , config = require('../configs');
 
 module.exports = router;
@@ -25,9 +25,9 @@ var apiDesc = [
   }
 ];
 
-router.post('/signin', User.signin);
+router.post('/signin', UserCtrl.signin);
 
-router.post('/signup', User.signup);
+router.post('/signup', UserCtrl.signup);
 
 var routerSettings = {
   '/api/categories': {
