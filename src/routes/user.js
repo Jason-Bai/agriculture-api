@@ -3,23 +3,24 @@ var express = require('express')
   , UserCtrl = require('../controllers').UserCtrl;
 
 /**
- * find all users
+ * 用户列表
  */
 router.get('/', UserCtrl.findAll);
 
 /**
- * create user
+ * 创建用户
  */
 router.post('/', UserCtrl.create);
 
 /**
- * update user info
+ * 更新用户
  */
-router.put('/:userId', UserCtrl.update);
+router.patch('/:userId', UserCtrl.update);
 
 /**
- * get user profile
+ * 用户详情
  */
-router.get('/:userId', UserCtrl.findProfile);
+router.get('/:userId', UserCtrl.detail);
+
 
 module.exports = router;

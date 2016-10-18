@@ -1,5 +1,6 @@
 var UserModel = require('../models').UserModel
-  , crypto = require('crypto');
+  , crypto = require('crypto')
+	, utils = require('../lib/utils');
 
 hash = function (password) {
   return crypto.createHash('sha1').update(password).digest('base64')
@@ -7,13 +8,14 @@ hash = function (password) {
 
 // login
 exports.signin = function (req, res, next) {
-  var body = utils.getParams(req);
-  var password = utils.sha1Hash(body.name, 'salt');
 
-  UserModel.findOne({name: body.name}, function (err, u) {
-    if (err) next(err);
+  var password = utils.sha1Hash(req.params.name, 'salt');
+
+  UserModel.findOne({name: req.params.name}, function (err, u) {
+    if (err) {
+			return next(err);
+		}
     if (u.password == password) {
-      // delete u.salt;
       res.json(u);
     } else {
       res.json({
@@ -26,14 +28,15 @@ exports.signin = function (req, res, next) {
 
 // register
 exports.signup = function (req, res, next) {
-  var body = utils.getParams(req);
   var users = new UserModel({
-    name: body.name,
-    password: utils.sha1Hash(body.password, 'salt'),
+    name: req.params.name,
+    password: utils.sha1Hash(req.params.password, 'salt'),
   });
   users.save(function (err, u) {
-    // res.json(u);
-    res.redirect('/api/users');
+		if (err) {
+			return next(err);
+		}
+		res.json({code: 200});
   })
 };
 
@@ -47,33 +50,37 @@ function findUserProfile(params, callback) {
 exports.findUserProfile = findUserProfile;
 
 // get user info
-exports.findProfile = function (req, res, next) {
-  var params = utils.getParams(req);
-  findUserProfile({id: params.userId}, function (docs) {
+exports.detail = function (req, res, next) {
+  findUserProfile({id: req.params.userId}, function (docs) {
     res.json(docs);
   });
 };
 
 // Get all users
 exports.findAll = function (req, res, next) {
-  var params = utils.getParams(req),
-    p = utils.pagination(req.query);
-  UserModel.find({user_id: params.user_id}).sort({created_at: -1}).paginate(p.page, p.pre_count, function (err, data, total) {
-    if (err)  return next(err);
-    p.total = total;
-    p.data = data || [];
-    p.page_total = Math.ceil(total / p.pre_count);
-    res.json(p);
-  })
+  UserModel.find({user_id: req.params.user_id})
+		.sort({created_at: -1})
+		.paginate(req.params.page || 1, req.params.pre_count || 10, function (err, data, total) {
+      if (err) {
+				return next(err);
+			}
+			var result = {
+				total_num: total,
+				data: data || [],
+				page_count: Math.ceil(total / (req.params.pre_count || 10))
+			};
+      res.json(result);
+    });
 }
 
 // Get all users by a particular user name
 exports.findAllByName = function (req, res, next) {
-  var params = utils.getParams(req);
-  UserModel.find().byName(params.name).exec(function (err, u) {
-    if (err) next(err);
-    res.json(u);
-  });
+  UserModel.find()
+		.byName(req.params.name)
+		.exec(function (err, u) {
+    	if (err) next(err);
+    	res.json(u);
+  	});
 };
 
 // Get all users by a particular user
@@ -108,8 +115,7 @@ exports.changePassword = function (id, password, cb) {
 
 // count
 exports.count = function (req, res, next) {
-  var params = utils.getParams(req);
-  UserModel.count(params, function (err, count) {
+  UserModel.count(req.params || {}, function (err, count) {
     if (err) return next(err);
     res.json({count: count})
   });
@@ -118,18 +124,16 @@ exports.count = function (req, res, next) {
 // create
 exports.create = function (req, res, next) {
 
-  var params = utils.getParams(req);
-
   var user = new UserModel({
-    name: params.name,
-		pass: params.password
+    name: req.params.name,
+		pass: req.params.password
   });
 
-  user.save(function (err, model) {
+  user.save(function (err, user) {
 		if (err) {
 			return res.status(500).send(err);
 		}
-		return res.json(model);
+		return res.json(user);
   });
 
 };

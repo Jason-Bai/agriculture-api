@@ -13,12 +13,12 @@ module.exports = router;
 router.get('/', PostsCtrl.findAll);
 
 // find one
-router.get('/:postId', PostsCtrl.findOneById);
+router.get('/:postId', PostsCtrl.detail);
 
 // create a product
-router.post('/', middleware.auth, PostsCtrl.create);
+router.post('/', PostsCtrl.create);
 
 // update a project
-router.put('/:postId', middleware.auth, PostsCtrl.update);
+router.patch('/:postId', PostsCtrl.update);
 
-router.del('/:postId', middleware.auth, PostsCtrl.deleteOne);
+router.del('/:postId', PostsCtrl.deleteOne);

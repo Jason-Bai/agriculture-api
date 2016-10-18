@@ -1,29 +1,10 @@
 var express = require('express')
   , router = express.Router()
   , UserCtrl = require('../controllers').UserCtrl
-  , config = require('../configs');
+  , config = require('../configs')
+	, utils = require('../lib/utils');
 
-module.exports = router;
-
-var apiDesc = [
-  {
-    name: 'Users',
-    desc: 'user operate ..',
-    list: [
-      {
-        name: '登录',
-        url: '/signin',
-        params: ['name', 'password']
-      },
-      {
-        name: '注册',
-        url: '/signup',
-        // headers: {Authrozation: 'Bear xxx toekn'},
-        params: ['name', 'password']
-      }
-    ]
-  }
-];
+var apiDesc = [];
 
 router.post('/signin', UserCtrl.signin);
 
@@ -32,11 +13,11 @@ router.post('/signup', UserCtrl.signup);
 var routerSettings = {
   '/api/categories': {
     name: '农业分类API',
-    router: require('./categories')
+    router: require('./category')
   },
   '/api/users': {
     name: '用户API',
-    router: require('./users')
+    router: require('./user')
   },
   '/api/authenticate': {
     name: '授权API',
@@ -46,18 +27,20 @@ var routerSettings = {
 
 var routerPaths = utils._.keys(routerSettings);
 
-var apiResults = [];
+var apisDesc = [];
 
 utils._.each(routerPaths, function (path) {
   var obj = {
     path: path,
     desc: routerSettings[path].name
   };
-  apiResults.push(obj);
+  apisDesc.push(obj);
   router.use(path, routerSettings[path].router);
 });
 
 
 router.get('/api', function (req, res) {
-  res.send('Hello! The API is at http://localhost:' + config.service.port + '/api');
+	res.json(apisDesc);
 });
+
+module.exports = router;

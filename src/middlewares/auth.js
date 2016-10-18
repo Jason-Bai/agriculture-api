@@ -1,20 +1,22 @@
 var jwt = require('jsonwebtoken');
 
 var configs = require('../configs');
+
 var utils = require('../lib/utils');
+
+/*
 var UserCtrl = require('../controllers');
 
 function auth(req, res, next) {
-  var params = utils.getParams(req);
-  if (params.token) {
-    UserCtrl.findUserProfile({id: params.userId}, function (docs) {
+  if (req.params.token) {
+    UserCtrl.findUserProfile({id: req.params.userId}, function (docs) {
       res.json(docs);
     });
   } else {
-    // res.redirect('/signin');
     res.end(401).json({code: 401, msg: 'lost token'});
   }
 }
+*/
 
 module.exports = function (opts) {
   return function (req, res, next) {
@@ -37,6 +39,3 @@ module.exports = function (opts) {
 
   }
 };
-
-
-module.exports.auth = auth;

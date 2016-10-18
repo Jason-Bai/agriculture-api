@@ -26,7 +26,7 @@ exports.findAll = function (req, res, next) {
 };
 
 
-exports.findOneById = function (req, res, next) {
+exports.detail = function (req, res, next) {
   var params = utils.getParams(req);
   PostModel.findOne({_id: params.id}, {}, function (err, p) {
     if (err) return next(err);

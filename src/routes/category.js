@@ -4,15 +4,24 @@ var express = require('express')
   , middleware = require('../middlewares/auth');
 
 /**
- * 1.查询分类
- * 2.控制查询分类等级
+ * 分类列表
  */
 router.get('/', CategoryCtrl.findAll);
 
-router.get('/:parentId', CategoryCtrl.findByParentId);
+/**
+ * 添加分类
+ */
 
-router.post('/', middleware.auth, CategoryCtrl.create);
+router.post('/', CategoryCtrl.create);
 
-router.get('/:id', CategoryCtrl.findOne);
+/**
+ * 更新分类
+ */
+router.patch('/:categoryId', CategoryCtrl.update);
+
+/**
+ * 分类详情
+ */
+router.get('/:categoryId', CategoryCtrl.detail);
 
 module.exports = router;
