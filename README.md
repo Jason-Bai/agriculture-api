@@ -1,14 +1,23 @@
-# agriculture-api
+# Agriculture API 项目说明
 
-##用户信息接口
-    /api/v1/users GET ALL
-    /api/v1/users/:userId PUT,POST
-    /api/v1/profile/:userId GET
+## 一、使用说明
+* npm install
+* npm start
 
-##登录,注册接口
-    /signin
-    /signup
+## 二、接口说明
 
-##分类、发布接口
-    /api/v1/categories
-    /api/v1/posts
+### 1. 用户信息接口
+* POST    /api/users
+* DELETE  /api/users/:userId
+* GET     /api/users
+* PATCH   /api/users/:userId
+
+### 2. 登录,注册接口
+* POST    /signin
+* GET     /signup
+
+### 3. 农业分类接口
+* POST    /api/categories
+* DELETE  /api/categories/:categoryId
+* GET     /api/categories
+* PATCH   /api/categories/:categoryId
