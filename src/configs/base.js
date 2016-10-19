@@ -19,7 +19,8 @@ var config = {
     port: 6379
   },
   dateStr: 'YYYY-MM-DD',
-  timeStr: 'YYYY-MM-DD HH:mm:ss'
+  timeStr: 'YYYY-MM-DD HH:mm:ss',
+  whiteList: require('./extensions/white-list')
 };
 
 module.exports = config;

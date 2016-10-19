@@ -36,7 +36,7 @@ app.use(function (err, req, res, next) {
 
 // middlewares
 middlewares.forEach(function middleware(middleware) {
-  app.use('/api', middleware());
+  app.use('/', middleware());
 });
 
 // routes

@@ -3,7 +3,9 @@ var _ = require('lodash')
   , errors = require('./errors')
   , mongoose = require('mongoose')
   , Schema = mongoose.Schema
-  , async = require('async');
+  , async = require('async')
+  , bcrypt = require('bcrypt')
+  , jwt = require('jsonwebtoken');
 
 
 
@@ -106,6 +108,11 @@ var utils = {
   moment: moment,
   errors: errors,
   async: async,
+  bcrypt: bcrypt,
+  jwt: jwt,
+  getParams: function (req) {
+    return utils._.extend({}, req.query || {}, req.body || {});
+  },
   getToken: function (req) {
     var token = req.body && req.body.token || req.query && req.query.token || req.headers['x-access-token'];
     return token;

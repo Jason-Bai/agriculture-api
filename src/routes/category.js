@@ -1,7 +1,6 @@
 var express = require('express')
   , router = express.Router()
-  , CategoryCtrl = require('../controllers').CategoryCtrl
-  , middleware = require('../middlewares/auth');
+  , CategoryCtrl = require('../controllers').CategoryCtrl;
 
 /**
  * 分类列表

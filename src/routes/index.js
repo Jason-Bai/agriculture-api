@@ -6,20 +6,16 @@ var express = require('express')
 
 var apiDesc = [];
 
-router.post('/signin', UserCtrl.signin);
-
-router.post('/signup', UserCtrl.signup);
-
 var routerSettings = {
-  '/api/categories': {
+  '/categories': {
     name: '农业分类API',
     router: require('./category')
   },
-  '/api/users': {
+  '/users': {
     name: '用户API',
     router: require('./user')
   },
-  '/api/authenticate': {
+  '/authenticate': {
     name: '授权API',
     router: require('./authentication')
   }
@@ -39,7 +35,11 @@ utils._.each(routerPaths, function (path) {
 });
 
 
-router.get('/api', function (req, res) {
+router.post('/signin', UserCtrl.signin);
+
+router.post('/signup', UserCtrl.signup);
+
+router.get('/', function (req, res) {
 	res.json(apisDesc);
 });
 

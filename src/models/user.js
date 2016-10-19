@@ -29,6 +29,7 @@ UserSchema.pre('save', function (next) {
     if (!user.isModified('password')) return next()
     bcrypt.genSalt(configs.SALT_WORK_PACTOR, function (err, salt) {
         if (err) return next(err);
+        console.log(user, salt);
         bcrypt.hash(user.password, salt, function (err, hash) {
             if (err) return next(err);
             user.password = hash;
