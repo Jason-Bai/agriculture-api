@@ -1,13 +1,12 @@
 /**
  * Created by antianlu on 16/9/2.
  */
-var ProductModel = require('../models/product');
-
+var PostModel = require('../models').Posts;
 
 exports.create = function (req, res, next) {
-  var product = new ProductModel(params);
-  product.user_id = req.user.id;
-  product.save(function (err, p) {
+  var Post = new PostModel(params);
+  Post.user_id = req.user.id;
+  Post.save(function (err, p) {
     if (err) return next(err);
     res.json(p);
   })
@@ -17,7 +16,7 @@ exports.create = function (req, res, next) {
 exports.findAll = function (req, res, next) {
   var params = utils.getParams(req),
     p = utils.pagination(req.query);
-  ProductModel.find({user_id: params.user_id}).sort({created_at: -1}).paginate(p.page, p.pre_count, function (err, data, total) {
+  PostModel.find({user_id: params.user_id}).sort({created_at: -1}).paginate(p.page, p.pre_count, function (err, data, total) {
     if (err)  return next(err);
     p.total = total;
     p.data = data || [];
@@ -27,9 +26,9 @@ exports.findAll = function (req, res, next) {
 };
 
 
-exports.findOneById = function (req, res, next) {
+exports.detail = function (req, res, next) {
   var params = utils.getParams(req);
-  ProductModel.findOne({_id: params.id}, {}, function (err, p) {
+  PostModel.findOne({_id: params.id}, {}, function (err, p) {
     if (err) return next(err);
     res.json(p);
   })
@@ -37,7 +36,7 @@ exports.findOneById = function (req, res, next) {
 
 exports.findOneByName = function (req, res, next) {
   var params = utils.getParams(req);
-  ProductModel.find({name: new RegExp(params.name)}, function (err, p) {
+  PostModel.find({name: new RegExp(params.name)}, function (err, p) {
     if (err) return next(err);
     res.json(p);
   })
@@ -49,7 +48,7 @@ exports.findByCategory = function (cb) {
 
 exports.deleteOne = function (req, res, next) {
   var params = utils.getParams(req);
-  ProductModel.remove({id: params.id}, function (err, p) {
+  PostModel.remove({id: params.postId}, function (err, p) {
     if (err) return next(err);
     res.json({code: 200, msg: 'delete success'});
   })
@@ -57,7 +56,9 @@ exports.deleteOne = function (req, res, next) {
 
 exports.update = function (req, res, next) {
   var params = utils.getParams(req);
-  ProductModel.update(params, {upsert: true}, function (err, p) {
+  var postId = params.postId;
+  delete params.postId;
+  PostModel.update({id: postId}, params, {upsert: true}, function (err, p) {
     if (err) return next(err);
     res.json({code: 200, msg: 'update success'});
   })

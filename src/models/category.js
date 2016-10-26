@@ -3,7 +3,10 @@ var Schema = mongoose.Schema;
 
 var CategorySchema = new Schema({
   name: String,
-  sub_category: Schema.Types.Mixed
+	isDelete: Number,
+	level: Number,
+	createdAt: Date,
+	updatedAt: Date
 }, {
     versionKey: false
 });

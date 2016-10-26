@@ -7,11 +7,11 @@ var config = {
     port: 8000
   },
   db: {
-    host: '127.0.0.1',
+    host: '',
     port: 27017,
-    name: 'agriculture',
-    user: 'agriculture',
-    pass: 'agriculture'
+    name: '',
+    user: '',
+    pass: ''
   },
   redis: {
     prefix: 'agriculture_redis',
@@ -19,7 +19,8 @@ var config = {
     port: 6379
   },
   dateStr: 'YYYY-MM-DD',
-  timeStr: 'YYYY-MM-DD HH:mm:ss'
+  timeStr: 'YYYY-MM-DD HH:mm:ss',
+  whiteList: require('./extensions/white-list')
 };
 
 module.exports = config;

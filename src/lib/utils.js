@@ -3,12 +3,14 @@ var _ = require('lodash')
   , errors = require('./errors')
   , mongoose = require('mongoose')
   , Schema = mongoose.Schema
-  , async = require('async');
+  , async = require('async')
+  , bcrypt = require('bcrypt')
+  , jwt = require('jsonwebtoken');
 
 
 
 var common = {},
-  extend = require('extend'),
+  extend = _.extend,
   crypto = require('crypto'),
   fs = require('fs');
 
@@ -106,37 +108,21 @@ var utils = {
   moment: moment,
   errors: errors,
   async: async,
+  bcrypt: bcrypt,
+  jwt: jwt,
+  getParams: function (req) {
+    return utils._.extend({}, req.query || {}, req.body || {});
+  },
   getToken: function (req) {
     var token = req.body && req.body.token || req.query && req.query.token || req.headers['x-access-token'];
     return token;
-  },
-  findByPage: function (pageIndex, pageSize, Model, populate, queryParams, sortParams, callback) {
-    var start = (pageIndex - 1) * pageSize;
-    var res = {
-      pageIndex: +pageIndex
-    };
-    async.parallel({
-      count: function (done) {
-        Model.count(queryParams, function (err, count) {
-          done(err, count);
-        });
-      },
-      records: function (done) {
-        Model.findByPage(queryParams, start, pageSize, populate, sortParams, function (err, docs) {
-          done(err, docs);
-        });
-      }
-    }, function (err, results) {
-      var count = results.count;
-      res.pageCount = (count - 1) / pageSize + 1;
-      res.results = results.records;
-      callback(err, res);
-    });
   }
 };
 
+/*
 for (var k in common) {
   utils[k] = common[k];
 }
+*/
 
-global.utils = utils;
+module.exports = utils;

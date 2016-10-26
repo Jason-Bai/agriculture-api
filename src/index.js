@@ -23,9 +23,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// controllers
-// require('./routes/dispatcher')(app);
-
 /**
  * error process
  
@@ -36,16 +33,13 @@ app.use(function (err, req, res, next) {
 });
 */
 
-var port = process.env.PORT || configs.service.port;
 
-
-// custorm middlewares
+// middlewares
 middlewares.forEach(function middleware(middleware) {
-  app.use('/api', middleware());
+  app.use('/', middleware());
 });
 
 // routes
 app.use(require('./routes'));
 
-app.listen(port);
-console.log('Magic happens on port ' + port);
+module.exports = app;
