@@ -1,7 +1,6 @@
 var express = require('express')
   , router = express.Router()
   , UserCtrl = require('../controllers').UserCtrl
-  , config = require('../configs')
 	, utils = require('../lib/utils');
 
 var apiDesc = [];
@@ -14,10 +13,6 @@ var routerSettings = {
   '/users': {
     name: '用户API',
     router: require('./user')
-  },
-  '/authenticate': {
-    name: '授权API',
-    router: require('./authentication')
   }
 };
 
@@ -38,6 +33,8 @@ utils._.each(routerPaths, function (path) {
 router.post('/signin', UserCtrl.signin);
 
 router.post('/signup', UserCtrl.signup);
+
+router.post('/signout', UserCtrl.signout);
 
 router.get('/', function (req, res) {
 	res.json(apisDesc);

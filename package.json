@@ -4,21 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "supervisor server.js",
+    "start-dev": "NODE_ENV=development supervisor server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.1.2",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "lodash": "^4.15.0",
     "jsonwebtoken": "^7.1.9",
+    "lodash": "^4.15.0",
     "moment": "^2.14.1",
-    "mongoose-pagination": "^1.0.0",
     "mongoose": "^4.5.10",
+    "mongoose-pagination": "^1.0.0",
     "morgan": "^1.7.0"
   }
 }
