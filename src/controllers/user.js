@@ -19,7 +19,7 @@ exports.detail = function (req, res, next) {
 
 // Get all users
 exports.findAll = function (req, res, next) {
-  UserModel.find({ user_id: req.params.user_id })
+  UserModel.find({})
     .sort({ created_at: -1 })
     .paginate(req.params.page || 1, req.params.pre_count || 10, function (err, data, total) {
       if (err) {
