@@ -2,7 +2,7 @@ var utils = require('../lib/utils');
 
 var configs = require('../configs');
 
-var UserCtrl = require('../controllers').UserCtrl;
+var UserModel = require('../models').UserModel;
 
 module.exports = function (opts) {
 
@@ -10,12 +10,9 @@ module.exports = function (opts) {
 
     var key = req.method + " " + req.url
 
-    console.log(key, utils._.indexOf(configs.whiteList, key));
-
     if (utils._.indexOf(configs.whiteList, key) !== -1) {
       return next();
     }
-
 
     var token = utils.getToken(req);
 
@@ -26,11 +23,10 @@ module.exports = function (opts) {
           var errMsg = utils.errors.ISE('token invalid.');
           return res.json(errMsg);
         }
-        req.decoded = decoded;
 
-        var userId = req.decoded._doc._id;
+        req.user = decoded._doc;
 
-        UserCtrl.get(userId, function (err, user) {
+        UserModel.findOne({_id: req.user._id}, function (err, user) {
 
           if (err) {
             var errMsg = utils.errors.ISE('get user: ' + err.toString() + '!');

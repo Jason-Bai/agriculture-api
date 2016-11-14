@@ -9,8 +9,8 @@ router.get('/', UserCtrl.findAll);
 
 /**
  * 创建用户
- */
 router.post('/', UserCtrl.signup);
+*/
 
 /**
  * 更新用户
