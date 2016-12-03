@@ -1,4 +1,8 @@
-var CategoriesModel = require('../models').CategoryModel;
+var CategoriesModel = require('../models').CategoryModel
+		, utils = require('../lib/utils'),
+    schema = CategoriesModel.schema.obj,
+    conditionKeys = utils._.keys(schema);
+
 
 exports.create = function (req, res, next) {
   var category = new CategoriesModel({
@@ -14,15 +18,37 @@ exports.create = function (req, res, next) {
 
 // Get all categories,support page
 exports.findAll = function (req, res, next) {
+
+  var params = utils.getParams(req),
+      sort = utils.getSort(params.sort || ''),
+      attrs = params.attrs;
+
+  var _params = {},
+      _sort = {},
+      _attrs = '';
+
+  if (attrs) {
+    _attrs += ' -password';
+  } else {
+    _attrs = '-password';
+  }
+
+  _sort = utils._.extend({}, {created_at: -1 }, sort);
+
+  _params = utils.getQueryConditions(params, conditionKeys);
+
+  var page = +params.page || 1,
+      pre_count = +params.pre_count || 10;
+
   CategoriesModel
-    .find(req.params || {})
-    .sort({created_at: -1})
-    .paginate(req.params.page || 1, req.params.pre_count || 10, function (err, data, total) {
+    .find(_params, _attrs)
+    .sort(_sort)
+    .paginate(page, pre_count, function (err, data, total) {
       if (err) return next(err);
       var result = {
         total_num: total,
         data: data || [],
-        page_count: Math.ceil(total / (req.params.pre_count || 10))
+        page_count: Math.ceil(total / (pre_count || 10))
       };
       res.json(result);
     });

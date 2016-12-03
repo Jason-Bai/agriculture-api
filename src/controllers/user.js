@@ -47,8 +47,8 @@ exports.findAll = function (req, res, next) {
     created_at: -1
   }
 
-  var page = params.page || 1,
-      pre_count = params.pre_count || 10;
+  var page = +params.page || 1,
+      pre_count = +params.pre_count || 10;
 
 
   UserModel.find({}, attrs)

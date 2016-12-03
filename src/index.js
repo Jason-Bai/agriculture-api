@@ -19,20 +19,10 @@ app.set('superSecret', configs.secret);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+// logger
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
-
-/**
- * error process
- 
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  var code = err.code || err.status || 500;
-  return res.json({code: code, msg: err.message});
-});
-*/
-
 
 // middlewares
 middlewares.forEach(function middleware(middleware) {
@@ -41,5 +31,12 @@ middlewares.forEach(function middleware(middleware) {
 
 // routes
 app.use(require('./routes'));
+
+// error process
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  var code = err.code || err.status || 500;
+  return res.json({code: code, message: err.message});
+});
 
 module.exports = app;

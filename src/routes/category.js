@@ -10,7 +10,6 @@ router.get('/', CategoryCtrl.findAll);
 /**
  * 添加分类
  */
-
 router.post('/', CategoryCtrl.create);
 
 /**

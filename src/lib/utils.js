@@ -116,6 +116,38 @@ var utils = {
   getToken: function (req) {
     var token = req.body && req.body.token || req.query && req.query.token || req.headers['x-access-token'];
     return token;
+  },
+  getSort: function (sortStr) {
+    if (sortStr === '') {
+      return {};
+    }
+
+    var retSort = {},
+        sortArr = sortStr.split(',');
+
+    utils._.each(sortArr, function (sort) {
+      var firstChar = sort.substr(0, 1),
+          key = sort;
+      if (firstChar === '-') {
+        key = sort.substr(1);
+        retSort[key] = -1;
+      } else {
+        retSort[key] = 1;
+      }
+    })
+
+    return retSort;
+  },
+  getQueryConditions: function (params, conditionKeys) {
+    var retQueryConditions = {};
+
+    utils._.each(conditionKeys, function (ck) {
+      if (params[ck]) {
+        retQueryConditions[ck] = params[ck]
+      }
+    })
+
+    return retQueryConditions;
   }
 };
 
